@@ -1,0 +1,133 @@
+---
+title: "Plotting_var"
+author: "Xiaojie Mao"
+date: "9/19/2020"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(latex2exp)
+```
+
+```{r}
+# http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/
+colors = list("#D55E00", "#E69F00", "#56B4E9", "#009E73", "#CC79A7")
+names(colors) = c("StochOptForest\n(oracle)", "StochOptForest\n(apx-risk)", "StochOptForest\n(apx-soln)", "RandForest", "RandSplitForest")
+```
+
+## fig 8(a)
+```{r}
+data = (read.csv("risk_var_normal_oracle.csv"))
+data = as_tibble(data)
+data$n = as.factor(data$n)
+data$Method = factor(data$Method, levels =c("StochOptForest\n(oracle)", "StochOptForest\n(apx-soln)", "StochOptForest\n(apx-risk)", "RandForest", "RandSplitForest"))
+data$Constraint = factor(data$Constraint, levels = c("yes", "no"))
+```
+
+```{r}
+plot_rel_risk_oracle = data %>% 
+  ggplot(aes(x = n, y = rel_risk, fill = Method, linetype = Constraint)) +
+  geom_boxplot() +
+  scale_fill_manual(values = 
+    c("StochOptForest\n(oracle)" = colors[["StochOptForest\n(oracle)"]],
+      "StochOptForest\n(apx-risk)" = colors[["StochOptForest\n(apx-risk)"]], 
+      "StochOptForest\n(apx-soln)" =  colors[["StochOptForest\n(apx-soln)"]], 
+      "RandForest" = colors[["RandForest"]], 
+      "RandSplitForest" = colors[["RandSplitForest"]])) + ylab("Relative risk")  + xlab(TeX("Sample size $n$"))  + theme(legend.key.height = unit(0.8, "cm"))
+```
+
+```{r}
+plot_rel_risk_oracle
+```
+```{r}
+ggsave("../../paper/fig/var_risk_normal_oracle.pdf", plot = plot_rel_risk_oracle, width = 8, height = 4.5)
+```
+
+
+
+```{r}
+data = (read.csv("risk_var_normal_oracle.csv"))
+data = as_tibble(data)
+data$n = as.factor(data$n)
+data$Method = factor(data$Method, levels =c("StochOptForest\n(oracle)", "StochOptForest\n(apx-soln)", "StochOptForest\n(apx-risk)", "RandForest", "RandSplitForest"))
+data$Constraint = factor(data$Constraint, levels = c("yes", "no"))
+```
+
+```{r}
+plot_rel_risk_oracle = data %>% 
+  ggplot(aes(x = n, y = rel_risk, fill = Method, linetype = Constraint)) +
+  geom_boxplot() +
+  scale_fill_manual(values = 
+    c("StochOptForest\n(oracle)" = colors[["StochOptForest\n(oracle)"]],
+      "StochOptForest\n(apx-risk)" = colors[["StochOptForest\n(apx-risk)"]], 
+      "StochOptForest\n(apx-soln)" =  colors[["StochOptForest\n(apx-soln)"]], 
+      "RandForest" = colors[["RandForest"]], 
+      "RandSplitForest" = colors[["RandSplitForest"]])) + ylab("Relative risk")  + xlab(TeX("Sample size $n$"))  + theme(legend.key.height = unit(0.8, "cm"))
+```
+
+```{r}
+plot_rel_risk_oracle
+```
+```{r}
+ggsave("var_risk_normal_oracle.pdf", plot = plot_rel_risk_oracle, width = 10, height = 4.5)
+```
+
+
+
+## fig 8(b)
+```{r}
+data = (read.csv("feature_split_var_normal_oracle.csv"))
+data = as_tibble(data)
+data$Method = factor(data$Method, levels =c("StochOptForest\n(oracle)", "StochOptForest\n(apx-soln)", "StochOptForest\n(apx-risk)", "RandForest"))
+data$Constraint = factor(data$Constraint, levels = c("yes", "no"))
+data$p = factor(data$p)
+```
+
+```{r}
+plot_feature_freq_oracle = data %>%  ggplot(aes(x = p, y = freq, fill = Method, linetype = Constraint)) + geom_col(position='dodge', color = "black") + xlab("Covariate index") + ylab("Splitting frequency") + coord_flip() + 
+  scale_fill_manual(values = 
+    c("StochOptForest\n(oracle)" = colors[["StochOptForest\n(oracle)"]],
+      "StochOptForest\n(apx-risk)" = colors[["StochOptForest\n(apx-risk)"]], 
+      "StochOptForest\n(apx-soln)" =  colors[["StochOptForest\n(apx-soln)"]], 
+      "RandForest" = colors[["RandForest"]]))  + theme(legend.position = "none")
+# + theme(legend.key.height = unit(0.8, "cm"))
+```
+
+```{r}
+plot_feature_freq_oracle
+```
+```{r}
+ggsave("../../paper/fig/var_feature_normal_oracle.pdf", plot = plot_feature_freq_oracle, height = 4.5, width = 2)
+```
+
+## fig 8(c)
+```{r}
+data = (read.csv("risk_var_normal.csv"))
+data = as_tibble(data)
+data$n = as.factor(data$n)
+data$Method = factor(data$Method, levels =c("StochOptForest\n(apx-soln)", "StochOptForest\n(apx-risk)", "RandForest", "RandSplitForest"))
+data$Constraint = factor(data$Constraint, levels = c("yes", "no"))
+```
+
+```{r}
+plot_rel_risk_normal = data %>% 
+  ggplot(aes(x = n, y = rel_risk, fill = Method, linetype = Constraint)) +
+  geom_boxplot() +
+  scale_fill_manual(values = 
+    c("StochOptForest\n(apx-risk)" = colors[["StochOptForest\n(apx-risk)"]], 
+      "StochOptForest\n(apx-soln)" =  colors[["StochOptForest\n(apx-soln)"]], 
+      "RandForest" = colors[["RandForest"]], 
+      "RandSplitForest" = colors[["RandSplitForest"]])) + ylab("Relative risk")  + xlab(TeX("Sample size $n$"))  + theme(legend.position = "none")  
+# + theme(legend.key.height = unit(0.8, "cm"))
+```
+
+```{r}
+plot_rel_risk_normal
+```
+```{r}
+ggsave("../../paper/fig/var_risk_normal.pdf", plot = plot_rel_risk_normal, height = 4.5, width = 10)
+```
+
+
+

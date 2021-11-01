@@ -1,0 +1,285 @@
+---
+title: "Plotting_cvar"
+author: "Xiaojie Mao"
+date: "9/19/2020"
+output: html_document
+---
+
+
+```{r}
+library(tidyverse)
+library(latex2exp)
+```
+
+```{r}
+# http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/
+colors = list("#D55E00", "#E69F00", "#56B4E9", "#009E73", "#CC79A7", "#0072B2")
+names(colors) = c("StochOptForest\n(oracle)",
+                  "StochOptForest\n(apx-risk)",
+                  "StochOptForest\n(apx-soln)", "RandForest",
+                  "RandSplitForest", "GenRandForest")
+```
+
+# Fig 2(a)
+```{r}
+data = (read.csv("risk_lognormal.csv"))
+data = as_tibble(data)
+data$n = as.factor(data$n)
+data$Method = factor(data$Method, levels =c("StochOptForest\n(apx-risk)", "StochOptForest\n(apx-soln)", "RandForest", "GenRandForest\n(modified)", "RandSplitForest"))
+data$Constraint = factor(data$Constraint, levels = c("yes", "no"))
+```
+
+```{r}
+plot_rel_risk_lognormal = data %>% 
+  ggplot(aes(x = n, y = rel_risk, fill = Method, linetype = Constraint)) +
+  geom_boxplot() +
+  scale_fill_manual(values = 
+    c("StochOptForest\n(apx-risk)" = colors[["StochOptForest\n(apx-risk)"]], 
+      "StochOptForest\n(apx-soln)" =  colors[["StochOptForest\n(apx-soln)"]], 
+      "RandForest" = colors[["RandForest"]], 
+      "GenRandForest\n(modified)" = colors[["GenRandForest"]], 
+      "RandSplitForest" = colors[["RandSplitForest"]])) + ylab("Relative risk")  + xlab(TeX("Sample size $n$")) + ylim(1, 2) + theme(legend.key.height = unit(0.8, "cm")) 
+```
+
+```{r}
+plot_rel_risk_lognormal
+```
+
+```{r}
+ggsave("../../paper/fig/cvar_risk_lognormal.pdf", plot = plot_rel_risk_lognormal, height = 4.5, width = 10)
+```
+
+```{r}
+data %>% filter(n==800) %>% group_by(Method) %>% summarise(mean(rel_risk)) 
+```
+
+# Fig 2(b)
+```{r}
+data_fi = read.csv("feature_imp_cvar_lognormal.csv")[, -1] %>%
+  select(-c(rf_random, rf_approx_sol_unconstr,
+            rf_approx_risk_unconstr)) %>%
+  relocate(rf_approx_risk, rf_approx_sol,
+           rf_rf) %>%
+  mutate(p = as.factor(1:10)) %>%
+  pivot_longer(c(rf_approx_risk,
+                 rf_approx_sol,
+                 rf_rf),
+               names_to = "method", values_to = "FeatImp") %>%
+  mutate(Constraint = case_when(method == "rf_approx_sol" ~ "yes",
+                                method == "rf_approx_risk"~ "yes",
+                                TRUE ~ "no")) %>%
+  mutate(Constraint = factor(Constraint, levels = c("yes", "no"))) %>%
+  mutate(Method = case_when(
+    method == "rf_approx_sol" ~ "StochOptForest\n(apx-soln)",
+    method == "rf_approx_sol_unconstr" ~ "StochOptForest\n(apx-soln)",
+    method == "rf_approx_risk" ~ "StochOptForest\n(apx-risk)",
+    method == "rf_approx_risk_unconstr" ~ "StochOptForest\n(apx-risk)",
+    method == "rf_rf" ~ "RandForest"
+  )) %>%
+  mutate(Method = factor(Method,
+                         levels = c("StochOptForest\n(apx-risk)", "StochOptForest\n(apx-soln)",
+                                    "RandForest")))
+```
+
+```{r}
+plot_fi = data_fi %>%
+  filter(Method != "GenRandForest") %>%
+  ggplot(aes(x = p, y = FeatImp, fill = Method, linetype = Constraint)) +
+  geom_col(position='dodge', color = "black") +
+  scale_fill_manual(values =
+                      c("StochOptForest\n(apx-risk)" = colors[["StochOptForest\n(apx-risk)"]],
+                        "StochOptForest\n(apx-soln)" =  colors[["StochOptForest\n(apx-soln)"]],
+                        "RandForest" = colors[["RandForest"]],
+                        "GenRandForest" = colors[["GenRandForest"]]))  +
+  xlab("Covariate Index") + ylab("Normalized Importance")  +
+  theme(legend.position = "none")
+```
+```{r}
+plot_fi
+```
+```{r}
+ggsave("../../paper/fig/cvar_feature_imp_lognormal.pdf", plot = plot_fi,
+       height = 2, width = 10)
+```
+
+# Fig 7
+```{r}
+data_split = read.csv("feature_split_cvar_lognormal.csv")[, -1] %>%
+  select(-c(rf_random, rf_approx_sol_unconstr,
+                rf_approx_risk_unconstr)) %>%
+  mutate(p = as.factor(1:10)) %>%
+  pivot_longer(c(rf_approx_sol,
+                 rf_approx_risk, rf_rf,
+                 grf),
+               names_to = "method", values_to = "Freq") %>%
+  mutate(Constraint = case_when(method == "rf_approx_sol" ~ "yes",
+                                method == "rf_approx_risk"~ "yes",
+                                TRUE ~ "no")) %>%
+  mutate(Constraint = factor(Constraint, levels = c("yes", "no"))) %>%
+  mutate(Method = case_when(
+    method == "rf_approx_sol" ~ "StochOptForest\n(apx-soln)",
+    method == "rf_approx_sol_unconstr" ~ "StochOptForest\n(apx-soln)",
+    method == "rf_approx_risk" ~ "StochOptForest\n(apx-risk)",
+    method == "rf_approx_risk_unconstr" ~ "StochOptForest\n(apx-risk)",
+    method == "rf_rf" ~ "RandForest",
+    method == "grf" ~ "GenRandForest\n(modified)"
+  )) %>%
+  mutate(Method = factor(Method,
+                         levels = c("StochOptForest\n(apx-risk)", "StochOptForest\n(apx-soln)",
+                                    "RandForest", "GenRandForest\n(modified)")))
+```
+
+```{r}
+plot_split = data_split %>%
+  ggplot(aes(x = p, y = Freq, fill = Method, linetype = Constraint)) +
+  scale_fill_manual(values =
+                      c("StochOptForest\n(apx-risk)" = colors[["StochOptForest\n(apx-risk)"]],
+                        "StochOptForest\n(apx-soln)" =  colors[["StochOptForest\n(apx-soln)"]],
+                        "RandForest" = colors[["RandForest"]],
+                        "GenRandForest\n(modified)" = colors[["GenRandForest"]])) +
+  geom_col(position='dodge', color = "black") +
+  xlab("Covariate index") + ylab("Splitting Frequency")
+```
+```{r}
+plot_split
+```
+```{r}
+ggsave("../../paper/fig/cvar_feature_split_lognormal.pdf", plot = plot_split,
+       height = 3, width = 10)
+```
+
+# Fig 8
+```{r}
+data = (read.csv("risk_lognormal_oracle.csv"))
+data = as_tibble(data)
+data$n = as.factor(data$n)
+data$Method = factor(data$Method, levels =c("StochOptForest\n(oracle)", "StochOptForest\n(apx-soln)", "StochOptForest\n(apx-risk)", "RandForest", "RandSplitForest"))
+data$Constraint = factor(data$Constraint, levels = c("yes", "no"))
+```
+
+```{r}
+plot_rel_risk_lognormal_oracle = data %>% 
+  ggplot(aes(x = n, y = rel_risk, fill = Method, linetype = Constraint)) +
+  geom_boxplot() +
+  scale_fill_manual(values = 
+    c("StochOptForest\n(apx-risk)" = colors[["StochOptForest\n(apx-risk)"]], 
+      "StochOptForest\n(apx-soln)" =  colors[["StochOptForest\n(apx-soln)"]], 
+      "RandForest" = colors[["RandForest"]], 
+      "RandSplitForest" = colors[["RandSplitForest"]], 
+    "StochOptForest\n(oracle)" = colors[["StochOptForest\n(oracle)"]])) + ylab("Relative risk")  + xlab(TeX("Sample size $n$")) + ylim(1, 2) + theme(legend.key.height = unit(0.8, "cm")) 
+```
+
+```{r}
+plot_rel_risk_lognormal_oracle
+```
+```{r}
+ggsave("../../paper/fig/cvar_risk_lognormal_oracle.pdf", plot = plot_rel_risk_lognormal_oracle, height = 4.5, width = 10)
+```
+
+# Fig 9
+```{r}
+data = (read.csv("risk_lognormal_objcoef.csv"))
+data = as_tibble(data)
+data$obj_coef = as.factor(data$obj_coef)
+data$Method = factor(data$Method, levels =c("StochOptForest\n(apx-soln)", "StochOptForest\n(apx-risk)", "RandForest", "RandSplitForest"))
+data$Constraint = factor(data$Constraint, levels = c("yes", "no"))
+```
+
+```{r}
+plot_objcoef_lognormal = data %>% 
+  ggplot(aes(x = obj_coef, y = rel_risk, fill = Method, linetype = Constraint)) +
+  geom_boxplot() +
+  scale_fill_manual(values = 
+    c("StochOptForest\n(apx-risk)" = colors[["StochOptForest\n(apx-risk)"]], 
+      "StochOptForest\n(apx-soln)" =  colors[["StochOptForest\n(apx-soln)"]], 
+      "RandForest" = colors[["RandForest"]], 
+      "RandSplitForest" = colors[["RandSplitForest"]])) + ylab("Relative risk")  + xlab(TeX('$\\rho$')) +   ylim(1, 2) + theme(legend.key.height = unit(0.8, "cm")) 
+```
+
+```{r}
+plot_objcoef_lognormal
+```
+```{r}
+ggsave("../../paper/fig/cvar_combined_risk_lognormal.pdf", plot = plot_objcoef_lognormal, height = 4.5, width = 10)
+```
+
+# Fig 10
+```{r}
+data = (read.csv("risk_normal.csv"))
+data = as_tibble(data)
+data$n = as.factor(data$n)
+data$Method = factor(data$Method, levels =c("StochOptForest\n(apx-soln)", "StochOptForest\n(apx-risk)", "RandForest", "RandSplitForest"))
+data$Constraint = factor(data$Constraint, levels = c("yes", "no"))
+```
+
+```{r}
+plot_rel_risk_normal = data %>% 
+  ggplot(aes(x = n, y = rel_risk, fill = Method, linetype = Constraint)) +
+  geom_boxplot() +
+  scale_fill_manual(values = 
+    c("StochOptForest\n(apx-risk)" = colors[["StochOptForest\n(apx-risk)"]], 
+      "StochOptForest\n(apx-soln)" =  colors[["StochOptForest\n(apx-soln)"]], 
+      "RandForest" = colors[["RandForest"]], 
+      "RandSplitForest" = colors[["RandSplitForest"]])) + ylab("Relative risk")  + xlab(TeX("Sample size $n$")) + ylim(1, 4) + theme(legend.position = "none") 
+```
+
+```{r}
+plot_rel_risk_normal
+```
+
+```{r}
+ggsave("../../paper/fig/cvar_risk_normal.pdf", plot = plot_rel_risk_normal, height = 4.5, width = 4)
+```
+
+```{r}
+data = (read.csv("risk_normal_oracle.csv"))
+data = as_tibble(data)
+data$n = as.factor(data$n)
+data$Method = factor(data$Method, levels =c("StochOptForest\n(oracle)", "StochOptForest\n(apx-soln)", "StochOptForest\n(apx-risk)", "RandForest", "RandSplitForest"))
+data$Constraint = factor(data$Constraint, levels = c("yes", "no"))
+```
+
+```{r}
+plot_rel_risk_normal_oracle = data %>% 
+  ggplot(aes(x = n, y = rel_risk, fill = Method, linetype = Constraint)) +
+  geom_boxplot() +
+  scale_fill_manual(values = 
+    c("StochOptForest\n(apx-risk)" = colors[["StochOptForest\n(apx-risk)"]], 
+      "StochOptForest\n(apx-soln)" =  colors[["StochOptForest\n(apx-soln)"]], 
+      "RandForest" = colors[["RandForest"]], 
+      "RandSplitForest" = colors[["RandSplitForest"]], 
+    "StochOptForest\n(oracle)" = colors[["StochOptForest\n(oracle)"]])) + ylab("Relative risk")  + xlab(TeX("Sample size $n$")) + ylim(1, 4) + theme(legend.key.height = unit(0.8, "cm")) 
+```
+
+```{r}
+plot_rel_risk_normal_oracle
+```
+```{r}
+ggsave("../../paper/fig/cvar_risk_normal_oracle.pdf", plot = plot_rel_risk_normal_oracle, height = 4.5, width = 6)
+```
+
+# Fig 15(a)
+```{r}
+data = (read.csv("risk_lognormal_honesty.csv"))
+data = as_tibble(data)
+data$n = as.factor(data$n)
+data$Method = factor(data$Method, levels =c("StochOptForest\n(apx-soln)", "StochOptForest\n(apx-risk)"))
+data$Honesty = factor(data$Honesty, levels = c("yes", "no"))
+```
+
+```{r}
+plot_rel_risk_lognormal_honesty = data %>% 
+  ggplot(aes(x = n, y = rel_risk, fill = Method, linetype = Honesty)) +
+  geom_boxplot() +
+  scale_fill_manual(values = 
+    c("StochOptForest\n(apx-risk)" = colors[["StochOptForest\n(apx-risk)"]], 
+      "StochOptForest\n(apx-soln)" =  colors[["StochOptForest\n(apx-soln)"]])) + ylab("Relative risk")  + xlab(TeX("Sample size $n$")) + ylim(1, 2) + theme(legend.key.height = unit(0.8, "cm")) + theme(legend.position = "none") 
+```
+
+```{r}
+plot_rel_risk_lognormal_honesty
+```
+
+```{r}
+ggsave("../../paper/fig/cvar_risk_lognormal_honesty.pdf", plot = plot_rel_risk_lognormal_honesty, height = 4.5, width = 4.5)
+```

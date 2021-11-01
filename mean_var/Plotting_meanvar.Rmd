@@ -1,0 +1,217 @@
+---
+title: "Plotting_meanvar"
+author: "Xiaojie Mao"
+date: "9/19/2020"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(latex2exp)
+```
+
+```{r}
+# http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/
+colors = list("#D55E00", "#E69F00", "#56B4E9", "#009E73", "#CC79A7")
+names(colors) = c("StochOptForest\n(oracle)", "StochOptForest\n(apx-risk)", "StochOptForest\n(apx-soln)", "RandForest", "RandSplitForest")
+```
+
+# fig 4(a)
+```{r}
+data = (read.csv("rel_risk_full.csv"))
+data = as_tibble(data)
+data$n = as.factor(data$n)
+data$Method = factor(data$Method, levels =c("StochOptForest\n(apx-soln)", "StochOptForest\n(apx-risk)", "RandForest", "RandSplitForest"))
+data$Constraint = factor(data$Constraint, levels = c("yes", "no"))
+```
+
+
+```{r}
+plot_rel_risk = data %>% 
+  ggplot(aes(x = n, y = rel_risk, fill = Method, linetype = Constraint)) +
+  geom_boxplot() +
+  scale_fill_manual(values = 
+    c("StochOptForest\n(apx-risk)" = colors[["StochOptForest\n(apx-risk)"]], 
+      "StochOptForest\n(apx-soln)" =  colors[["StochOptForest\n(apx-soln)"]], 
+      "RandForest" = colors[["RandForest"]], 
+      "RandSplitForest" = colors[["RandSplitForest"]])) + ylab("Relative risk")  + xlab(TeX("Sample size $n$")) + ylim(1, 5.5) + theme(legend.key.height = unit(0.8, "cm")) 
+```
+
+```{r}
+plot_rel_risk
+```
+
+
+```{r}
+# ggsave("../../paper/fig/meanvar_risk.pdf", plot = plot_rel_risk, width = 6.5, height = 4.5)
+```
+
+
+## fig 4(b)
+```{r}
+data = (read.csv("feature_freq_full.csv"))
+data = as_tibble(data)
+data$Method = factor(data$Method, levels =c("StochOptForest\n(apx-soln)", "StochOptForest\n(apx-risk)", "RandForest", "RandSplitForest"))
+data$Constraint = factor(data$Constraint, levels = c("yes", "no"))
+data$p = factor(data$p)
+```
+
+```{r}
+plot_feature_freq = data %>%  ggplot(aes(x = p, y = freq, fill = Method, linetype = Constraint)) + geom_col(position='dodge', color = "black") + xlab("Covariate index") + ylab("Splitting frequency") + coord_flip() + 
+  scale_fill_manual(values = 
+    c("StochOptForest\n(apx-risk)" = colors[["StochOptForest\n(apx-risk)"]], 
+      "StochOptForest\n(apx-soln)" =  colors[["StochOptForest\n(apx-soln)"]], 
+      "RandForest" = colors[["RandForest"]], 
+      "RandSplitForest" = colors[["RandSplitForest"]]))+ theme(legend.position = "none")
+```
+
+```{r}
+plot_feature_freq
+```
+
+## fig 4(c)
+```{r}
+data = (read.csv("cond_violation_full.csv"))
+data = as_tibble(data)
+data$Method = factor(data$Method, levels =c("StochOptForest\n(apx-soln)", "StochOptForest\n(apx-risk)", "RandForest", "RandSplitForest"))
+data$Constraint = factor(data$Constraint, levels = c("yes", "no"))
+data$n = as.factor(data$n)
+```
+
+```{r}
+plot_cond_violation = data %>% 
+  ggplot(aes(x = n, y = violation, fill = Method, linetype = Constraint)) +
+  geom_boxplot() +
+  scale_fill_manual(values = 
+    c("StochOptForest\n(apx-risk)" = colors[["StochOptForest\n(apx-risk)"]], 
+      "StochOptForest\n(apx-soln)" =  colors[["StochOptForest\n(apx-soln)"]], 
+      "RandForest" = colors[["RandForest"]], 
+      "RandSplitForest" = colors[["RandSplitForest"]])) + ylab("Violation of Conditional Constraints")  + xlab(TeX("Sample size $n$"))  + theme(legend.position = "none")
+```
+
+```{r}
+plot_cond_violation
+```
+
+## fig 4(d)
+```{r}
+data = (read.csv("marginal_violation_full.csv"))
+data = as_tibble(data)
+data$Method = factor(data$Method, levels =c("StochOptForest\n(apx-soln)", "StochOptForest\n(apx-risk)", "RandForest", "RandSplitForest"))
+data$Constraint = factor(data$Constraint, levels = c("yes", "no"))
+data$n = as.factor(data$n)
+```
+
+
+```{r}
+plot_marg_violation = data %>% 
+  group_by(n, R, Method, Constraint) %>% summarize(violation_mean = mean(violation)) %>% 
+  ggplot(aes(x = n, y = violation_mean, fill = Method, linetype = Constraint)) + 
+  geom_col(position = "dodge", color = "black") +
+  scale_fill_manual(values = 
+    c("StochOptForest\n(apx-risk)" = colors[["StochOptForest\n(apx-risk)"]], 
+      "StochOptForest\n(apx-soln)" =  colors[["StochOptForest\n(apx-soln)"]], 
+      "RandForest" = colors[["RandForest"]], 
+      "RandSplitForest" = colors[["RandSplitForest"]])) + ylab("Violation of Marginal Constraints")  + xlab(TeX("Sample size $n$")) + theme(legend.position = "none")
+```
+
+
+```{r}
+plot_marg_violation
+```
+
+# fig 9(a)
+```{r}
+data = (read.csv("rel_risk_full_oracle.csv"))
+data = as_tibble(data)
+data$n = as.factor(data$n)
+data$Method = factor(data$Method, levels =c("StochOptForest\n(oracle)", "StochOptForest\n(apx-soln)", "StochOptForest\n(apx-risk)", "RandForest", "RandSplitForest"))
+data$Constraint = factor(data$Constraint, levels = c("yes", "no"))
+```
+
+```{r}
+plot_rel_risk_oracle = data %>% 
+  ggplot(aes(x = n, y = rel_risk, fill = Method, linetype = Constraint)) +
+  geom_boxplot() +
+  scale_fill_manual(values = 
+    c("StochOptForest\n(oracle)" = colors[["StochOptForest\n(oracle)"]],
+      "StochOptForest\n(apx-risk)" = colors[["StochOptForest\n(apx-risk)"]], 
+      "StochOptForest\n(apx-soln)" =  colors[["StochOptForest\n(apx-soln)"]], 
+      "RandForest" = colors[["RandForest"]], 
+      "RandSplitForest" = colors[["RandSplitForest"]])) + ylab("Relative risk")  + xlab(TeX("Sample size $n$"))  + theme(legend.key.height = unit(0.8, "cm")) + ylim(1, 5.5)
+```
+
+```{r}
+plot_rel_risk_oracle
+```
+# fig 9(b)
+```{r}
+data = (read.csv("feature_freq_full_oracle.csv"))
+data = as_tibble(data)
+data$Method = factor(data$Method, levels =c("StochOptForest\n(oracle)", "StochOptForest\n(apx-soln)", "StochOptForest\n(apx-risk)", "RandForest", "RandSplitForest"))
+data$Constraint = factor(data$Constraint, levels = c("yes", "no"))
+data$p = factor(data$p)
+```
+
+```{r}
+plot_feature_freq_oracle = data %>%  ggplot(aes(x = p, y = freq, fill = Method, linetype = Constraint)) + geom_col(position='dodge', color = "black") + xlab("Covariate index") + ylab("Splitting frequency") + coord_flip() + 
+  scale_fill_manual(values = 
+    c("StochOptForest\n(oracle)" = colors[["StochOptForest\n(oracle)"]],
+      "StochOptForest\n(apx-risk)" = colors[["StochOptForest\n(apx-risk)"]], 
+      "StochOptForest\n(apx-soln)" =  colors[["StochOptForest\n(apx-soln)"]], 
+      "RandForest" = colors[["RandForest"]], 
+      "RandSplitForest" = colors[["RandSplitForest"]]))+ theme(legend.position = "none")
+```
+
+```{r}
+plot_feature_freq_oracle
+```
+
+# fig 10(a)
+```{r}
+data = (read.csv("rel_risk_full_R.csv"))
+data = as_tibble(data)
+data$R = as.factor(data$R)
+data$Method = factor(data$Method, levels =c("StochOptForest\n(apx-soln)", "StochOptForest\n(apx-risk)", "RandForest", "RandSplitForest"))
+data$Constraint = factor(data$Constraint, levels = c("yes", "no"))
+```
+
+```{r}
+plot_rel_risk_R = data %>% 
+  ggplot(aes(x = R, y = rel_risk, fill = Method, linetype = Constraint)) +
+  geom_boxplot() +
+  scale_fill_manual(values = 
+    c("StochOptForest\n(oracle)" = colors[["StochOptForest\n(oracle)"]],
+      "StochOptForest\n(apx-risk)" = colors[["StochOptForest\n(apx-risk)"]], 
+      "StochOptForest\n(apx-soln)" =  colors[["StochOptForest\n(apx-soln)"]], 
+      "RandForest" = colors[["RandForest"]], 
+      "RandSplitForest" = colors[["RandSplitForest"]])) + ylab("Relative risk")  + xlab(TeX("Mean Return Threshold $R$"))  + ylim(1, 7) + theme(legend.position = "none")
+```
+
+```{r}
+plot_rel_risk_R
+```
+# fig 10(b)
+```{r}
+data = (read.csv("abs_risk_full.csv"))
+data = as_tibble(data)
+data$n = as.factor(data$n)
+data$Method = factor(data$Method, levels =c("StochOptForest\n(apx-soln)", "StochOptForest\n(apx-risk)", "RandForest", "RandSplitForest"))
+data$Constraint = factor(data$Constraint, levels = c("yes", "no"))
+```
+
+```{r}
+plot_abs_risk = data %>% 
+  ggplot(aes(x = n, y = abs_risk, fill = Method, linetype = Constraint)) +
+  geom_boxplot() +
+  scale_fill_manual(values = 
+    c("StochOptForest\n(oracle)" = colors[["StochOptForest\n(oracle)"]],
+      "StochOptForest\n(apx-risk)" = colors[["StochOptForest\n(apx-risk)"]], 
+      "StochOptForest\n(apx-soln)" =  colors[["StochOptForest\n(apx-soln)"]], 
+      "RandForest" = colors[["RandForest"]], 
+      "RandSplitForest" = colors[["RandSplitForest"]])) + ylab("Absolute risk")  + xlab(TeX("Sample size $n$"))  + ylim(0, 20) + theme(legend.position = "none")
+```
+
+```{r}
+plot_abs_risk
+```

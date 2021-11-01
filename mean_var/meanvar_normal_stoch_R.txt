@@ -1,0 +1,223 @@
+start
+N:  400
+R:  0.1
+time:  3496.413792848587
+------------------------
+time:  2647.6035175323486
+------------------------
+risk: 400
+rf_approx_sol_oracle avg risk: 1.761227698081932 +- 0.08843335323585019
+rf_random_oracle avg risk: 1.8047832625619038 +- 0.055950086557146034
+rf_approx_sol_unconstr_oracle avg risk: 1.8084274699029543 +- 0.05910505759271808
+rf_approx_risk_oracle avg risk: 1.905202798437504 +- 0.16083424344639705
+oracle avg risk: 2.1034464119512704 +- 0.03840662056929289
+rf_approx_risk_unconstr_oracle avg risk: 2.259607379996309 +- 0.19658370467090178
+rf_approx_sol avg risk: 2.454410474103364 +- 0.1706992513655418
+rf_approx_risk avg risk: 2.5826834872865363 +- 0.3113462171920046
+rf_rf_oracle avg risk: 2.6608546621073863 +- 0.1522991995434624
+rf_approx_risk_unconstr avg risk: 3.200567969440541 +- 0.6471382040214174
+rf_random avg risk: 4.521643843338743 +- 0.06875914697039923
+rf_approx_sol_unconstr avg risk: 4.793191664918892 +- 0.0666876548238934
+rf_rf avg risk: 7.331255677090597 +- 3.8473808518262422
+------------------------
+rel_risk: 400
+rf_approx_risk rel risk: 1.3389482802977652 +- 0.060168291273966286
+rf_approx_risk_unconstr rel risk: 1.361506960692447 +- 0.14449549209070822
+rf_approx_sol rel risk: 1.390143196290608 +- 0.058161355285178615
+rf_random rel risk: 2.540786364989712 +- 0.10426378164782987
+rf_rf rel risk: 2.545944007670106 +- 0.9428533477004021
+rf_approx_sol_unconstr rel risk: 2.6943880547243553 +- 0.11877124542714831
+------------------------
+conditional violation: 400
+oracle avg conditional violation: 0.010988279440916621 +- 0.0005376882295058291
+rf_rf_oracle avg conditional violation: 0.04294022860903898 +- 0.005561530827249862
+rf_approx_risk_unconstr_oracle avg conditional violation: 0.05477268857456028 +- 0.0068475926431238385
+rf_approx_risk_unconstr avg conditional violation: 0.05584908397666848 +- 0.007024238894492097
+rf_rf avg conditional violation: 0.05838972998661225 +- 0.008784233230719639
+rf_approx_risk_oracle avg conditional violation: 0.07176060178515412 +- 0.008108445742349592
+rf_approx_risk avg conditional violation: 0.07294162895277849 +- 0.008308075357476798
+rf_approx_sol_oracle avg conditional violation: 0.08615257540700899 +- 0.010010331105073102
+rf_approx_sol avg conditional violation: 0.0872933319274643 +- 0.010219844938866072
+rf_random_oracle avg conditional violation: 0.08893609866416588 +- 0.006043094989760431
+rf_approx_sol_unconstr_oracle avg conditional violation: 0.09010170985139185 +- 0.005923363008021948
+rf_random avg conditional violation: 0.11789869438872694 +- 0.008051604605376083
+rf_approx_sol_unconstr avg conditional violation: 0.12685383014108847 +- 0.00808983779849678
+------------------------
+mean violation: 400
+rf_approx_sol avg mean violation: 0.0 +- 0.0
+rf_approx_sol_oracle avg mean violation: 0.0 +- 0.0
+rf_approx_sol_unconstr avg mean violation: 0.0 +- 0.0
+rf_approx_sol_unconstr_oracle avg mean violation: 0.0 +- 0.0
+rf_approx_risk avg mean violation: 0.0 +- 0.0
+rf_approx_risk_oracle avg mean violation: 0.0 +- 0.0
+rf_approx_risk_unconstr avg mean violation: 0.0 +- 0.0
+rf_approx_risk_unconstr_oracle avg mean violation: 0.0 +- 0.0
+rf_random avg mean violation: 0.0 +- 0.0
+rf_random_oracle avg mean violation: 0.0 +- 0.0
+rf_rf avg mean violation: 0.0 +- 0.0
+rf_rf_oracle avg mean violation: 0.0 +- 0.0
+oracle avg mean violation: 0.0 +- 0.0
+------------------------
+rf_approx_risk_unconstr frac feat. slt.: [0.20551162 0.19566464 0.07483694 0.07399684 0.07646096 0.07275749
+ 0.07375963 0.07713031 0.07553776 0.07434381]
+rf_approx_risk frac feat. slt.: [0.20473243 0.1937945  0.07663383 0.07513923 0.0754235  0.07612138
+ 0.07400645 0.07639867 0.07264271 0.07510732]
+rf_rf frac feat. slt.: [0.17979384 0.11265689 0.08757527 0.09098978 0.08762031 0.08848383
+ 0.09017769 0.08620454 0.08773679 0.08876107]
+rf_approx_sol frac feat. slt.: [0.1541568  0.20053195 0.08181456 0.08072851 0.08115353 0.08120834
+ 0.07947953 0.08137568 0.07893806 0.08061303]
+rf_random frac feat. slt.: [0.099248   0.10020992 0.09978421 0.10060933 0.09978134 0.10037456
+ 0.09986368 0.10034372 0.10050603 0.09927922]
+rf_approx_sol_unconstr frac feat. slt.: [0.05672259 0.06974247 0.11134795 0.10987042 0.10795291 0.10832028
+ 0.110007   0.10712492 0.10946481 0.10944664]
+---
+----------------------
+----------------------
+N:  400
+R:  0.3
+time:  4139.966733217239
+------------------------
+time:  2951.533259868622
+------------------------
+risk: 400
+rf_approx_sol_unconstr_oracle avg risk: 1.8102530828414565 +- 0.06269206082373084
+rf_approx_sol_oracle avg risk: 1.9425661105583716 +- 0.14204581848165185
+rf_random_oracle avg risk: 2.0031210702851556 +- 0.10003105454092558
+rf_approx_risk_oracle avg risk: 2.1633313610362577 +- 0.14228850324709463
+rf_approx_sol avg risk: 2.658346834533499 +- 0.20952379784071415
+rf_approx_risk avg risk: 2.873575002950937 +- 0.27664286349053263
+oracle avg risk: 2.996890611736118 +- 0.061762277076937676
+rf_approx_risk_unconstr_oracle avg risk: 3.251248510787034 +- 0.5488412763594677
+rf_rf_oracle avg risk: 4.0198813684569386 +- 0.582876616192395
+rf_approx_risk_unconstr avg risk: 4.156019517639368 +- 0.8528026731734896
+rf_random avg risk: 4.6819368707962 +- 0.09769204475276165
+rf_approx_sol_unconstr avg risk: 4.814277416251866 +- 0.06334007394388202
+rf_rf avg risk: 9.50022054795312 +- 2.8314610709438575
+------------------------
+rel_risk: 400
+rf_approx_risk_unconstr rel risk: 1.2407803949322194 +- 0.0535523158855269
+rf_approx_risk rel risk: 1.3153614427625628 +- 0.049178598205173105
+rf_approx_sol rel risk: 1.3670935354143108 +- 0.040642733303779335
+rf_rf rel risk: 2.225011055902657 +- 0.3117459109769719
+rf_random rel risk: 2.385103723189276 +- 0.0905885073968245
+rf_approx_sol_unconstr rel risk: 2.699229479369569 +- 0.10189221617207825
+------------------------
+conditional violation: 400
+oracle avg conditional violation: 0.015570874678504805 +- 0.0007100664131911849
+rf_rf_oracle avg conditional violation: 0.06848685206726583 +- 0.009712244271223094
+rf_approx_risk_unconstr_oracle avg conditional violation: 0.077570898940314 +- 0.009717293562445774
+rf_approx_risk_unconstr avg conditional violation: 0.08064791613661254 +- 0.010425282768895852
+rf_rf avg conditional violation: 0.0956023979552527 +- 0.015001713991590726
+rf_approx_risk_oracle avg conditional violation: 0.11347910558785804 +- 0.011890414440360276
+rf_approx_risk avg conditional violation: 0.11779173411422068 +- 0.012297562245115747
+rf_random_oracle avg conditional violation: 0.13418251625842964 +- 0.010446261806397137
+rf_approx_sol_oracle avg conditional violation: 0.14434063419038093 +- 0.016261191561629185
+rf_approx_sol avg conditional violation: 0.1489708123158122 +- 0.016671682044052064
+rf_approx_sol_unconstr_oracle avg conditional violation: 0.16033018326404014 +- 0.009392307730805644
+rf_random avg conditional violation: 0.18133713537340956 +- 0.013886450198723877
+rf_approx_sol_unconstr avg conditional violation: 0.2253549613595201 +- 0.012199750883580782
+------------------------
+mean violation: 400
+rf_approx_sol_oracle avg mean violation: 0.0 +- 0.0
+rf_approx_sol_unconstr_oracle avg mean violation: 0.0 +- 0.0
+rf_approx_risk avg mean violation: 0.0 +- 0.0
+rf_approx_risk_oracle avg mean violation: 0.0 +- 0.0
+rf_approx_risk_unconstr avg mean violation: 0.0 +- 0.0
+rf_approx_risk_unconstr_oracle avg mean violation: 0.0 +- 0.0
+rf_random_oracle avg mean violation: 0.0 +- 0.0
+rf_rf avg mean violation: 0.0 +- 0.0
+rf_rf_oracle avg mean violation: 0.0 +- 0.0
+oracle avg mean violation: 0.0 +- 0.0
+rf_approx_sol avg mean violation: 9.624155643142636e-05 +- 0.0001905485601169062
+rf_random avg mean violation: 0.002182183093246035 +- 0.004320502096469741
+rf_approx_sol_unconstr avg mean violation: 0.0031803506136464568 +- 0.006296772959288578
+------------------------
+rf_approx_risk_unconstr frac feat. slt.: [0.20720401 0.19652906 0.07318038 0.0737381  0.07623274 0.07456655
+ 0.07363631 0.07538085 0.07377898 0.07575302]
+rf_approx_risk frac feat. slt.: [0.19124928 0.19877364 0.07576258 0.07689761 0.07703666 0.07632757
+ 0.07600324 0.07567459 0.0764967  0.07577814]
+rf_rf frac feat. slt.: [0.17889146 0.11404843 0.08721149 0.08815224 0.08782486 0.0906272
+ 0.08708111 0.08813086 0.08986976 0.08816261]
+rf_approx_sol frac feat. slt.: [0.12797604 0.20186875 0.08319325 0.08357036 0.08423819 0.08485996
+ 0.08337993 0.08317647 0.08408095 0.0836561 ]
+rf_random frac feat. slt.: [0.0999901  0.09980669 0.10038808 0.0997992  0.10006008 0.10081234
+ 0.09988512 0.09960327 0.09994293 0.0997122 ]
+rf_approx_sol_unconstr frac feat. slt.: [0.05642399 0.07048815 0.10834902 0.10967447 0.10757358 0.10876967
+ 0.11009661 0.11045979 0.11070272 0.10746199]
+---
+----------------------
+----------------------
+N:  400
+R:  0.5
+time:  3828.5004715919495
+------------------------
+time:  3049.6945872306824
+------------------------
+risk: 400
+rf_approx_sol_unconstr_oracle avg risk: 2.149873480639472 +- 0.14571635817382897
+rf_approx_sol_oracle avg risk: 2.381007883419035 +- 0.2373982558798409
+rf_random_oracle avg risk: 2.6262480472563214 +- 0.23516311592406888
+rf_approx_risk_oracle avg risk: 2.8925752230057418 +- 0.5410473227502386
+rf_approx_sol avg risk: 3.475208944796423 +- 0.531708792357993
+rf_approx_risk avg risk: 3.9792516197177785 +- 0.8443001477522585
+rf_approx_risk_unconstr_oracle avg risk: 4.2566365918631455 +- 0.7927444308092391
+oracle avg risk: 4.4514348554138845 +- 0.0902655876761144
+rf_approx_sol_unconstr avg risk: 4.946779176431304 +- 0.10208412832696609
+rf_random avg risk: 5.174709096445521 +- 0.22829924767460424
+rf_approx_risk_unconstr avg risk: 6.234771106236727 +- 1.8118392410233677
+rf_rf_oracle avg risk: 7.112099907555607 +- 3.1876401274970303
+rf_rf avg risk: 31.953344975070276 +- 36.87717249481937
+------------------------
+rel_risk: 400
+rf_approx_risk rel risk: 1.3549174125985097 +- 0.04442175050290234
+rf_approx_risk_unconstr rel risk: 1.3645719569766501 +- 0.1667770779478422
+rf_approx_sol rel risk: 1.432421184503179 +- 0.056476519302450574
+rf_random rel risk: 2.052554101206618 +- 0.09325629971921343
+rf_approx_sol_unconstr rel risk: 2.3891194198778054 +- 0.1209850091252663
+rf_rf rel risk: 3.9860491896269803 +- 3.8949146974415516
+------------------------
+conditional violation: 400
+oracle avg conditional violation: 0.022146961264450715 +- 0.0009188754969376657
+rf_rf_oracle avg conditional violation: 0.09522718962731405 +- 0.009522515504656609
+rf_approx_risk_unconstr_oracle avg conditional violation: 0.11629881347247659 +- 0.012398211708104184
+rf_approx_risk_unconstr avg conditional violation: 0.12204384271430987 +- 0.012476666952714077
+rf_rf avg conditional violation: 0.1434161098265617 +- 0.020561707678898714
+rf_approx_risk_oracle avg conditional violation: 0.1631266733330787 +- 0.014408634781530276
+rf_random_oracle avg conditional violation: 0.1720051549804701 +- 0.013614366691320625
+rf_approx_risk avg conditional violation: 0.1741199303614821 +- 0.014240162221004453
+rf_approx_sol_oracle avg conditional violation: 0.209132651220766 +- 0.01580800499315867
+rf_random avg conditional violation: 0.22259001975714157 +- 0.01790156184511065
+rf_approx_sol avg conditional violation: 0.22322575622125423 +- 0.015553076748518422
+rf_approx_sol_unconstr_oracle avg conditional violation: 0.22440328832272965 +- 0.011866790277384938
+rf_approx_sol_unconstr avg conditional violation: 0.2983957234241289 +- 0.015384133639148938
+------------------------
+mean violation: 400
+rf_approx_sol_unconstr_oracle avg mean violation: 0.0 +- 0.0
+rf_approx_risk_oracle avg mean violation: 0.0 +- 0.0
+rf_approx_risk_unconstr avg mean violation: 0.0 +- 0.0
+rf_approx_risk_unconstr_oracle avg mean violation: 0.0 +- 0.0
+rf_random_oracle avg mean violation: 0.0 +- 0.0
+rf_rf avg mean violation: 0.0 +- 0.0
+rf_rf_oracle avg mean violation: 0.0 +- 0.0
+oracle avg mean violation: 0.0 +- 0.0
+rf_approx_sol_oracle avg mean violation: 0.00016333951642136927 +- 0.0003233957431523886
+rf_approx_risk avg mean violation: 0.0015525958065092796 +- 0.002170639286232215
+rf_approx_sol avg mean violation: 0.004678820420602128 +- 0.005232038149638185
+rf_random avg mean violation: 0.007056805276740599 +- 0.006271875042246441
+rf_approx_sol_unconstr avg mean violation: 0.017725306686841108 +- 0.010462725858443071
+------------------------
+rf_approx_risk_unconstr frac feat. slt.: [0.20290798 0.19384209 0.07734519 0.07614405 0.07547983 0.07355606
+ 0.07517838 0.07345499 0.07525817 0.07683325]
+rf_rf frac feat. slt.: [0.18048734 0.11133381 0.08865993 0.08665676 0.0886082  0.08930252
+ 0.08898041 0.089278   0.08779896 0.08889405]
+rf_approx_risk frac feat. slt.: [0.16967534 0.20277499 0.08145573 0.07718635 0.07882044 0.07849955
+ 0.07857443 0.07773938 0.07738749 0.07788631]
+rf_approx_sol frac feat. slt.: [0.10456389 0.19924764 0.08690677 0.08591097 0.08645846 0.08553374
+ 0.08846958 0.08794559 0.08733598 0.08762738]
+rf_random frac feat. slt.: [0.10077428 0.10068746 0.10036486 0.09965458 0.09970354 0.09931453
+ 0.09982758 0.10028188 0.09961294 0.09977835]
+rf_approx_sol_unconstr frac feat. slt.: [0.05517614 0.07152951 0.10665859 0.111044   0.10933744 0.10748489
+ 0.10829018 0.10990738 0.10934797 0.1112239 ]
+---
+----------------------
+----------------------

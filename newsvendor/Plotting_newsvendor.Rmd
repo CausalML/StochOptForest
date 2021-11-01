@@ -1,0 +1,176 @@
+---
+title: "Plotting_newsvendor"
+author: "Xiaojie Mao"
+date: "9/19/2020"
+output: html_document
+---
+
+```{r}
+library(tidyverse)
+library(latex2exp)
+```
+
+```{r}
+# http://www.cookbook-r.com/Graphs/Colors_(ggplot2)/
+colors = list("#D55E00", "#E69F00", "#56B4E9", "#009E73", "#CC79A7", "#0072B2")
+names(colors) = c("StochOptForest\n(oracle)", "StochOptForest\n(apx-risk)", "StochOptForest\n(apx-soln)", "RandForest", "RandSplitForest", "GenRandForest")
+```
+
+# Fig 5(a)
+```{r}
+data = (read.csv("risk_nv_n.csv"))
+data = as_tibble(data)
+data$n = as.factor(data$n)
+data$Method = factor(data$Method, levels =c("StochOptForest\n(oracle)", "StochOptForest\n(apx-soln)", "StochOptForest\n(apx-risk)", "GenRandForest", "RandForest"))
+```
+
+```{r}
+plot_risk_n = data %>% 
+  ggplot(aes(x = n, y = rel_risk, fill = Method)) +
+  geom_boxplot() +
+  scale_fill_manual(values = 
+    c("StochOptForest\n(oracle)" = colors[["StochOptForest\n(oracle)"]],
+      "StochOptForest\n(apx-risk)" = colors[["StochOptForest\n(apx-risk)"]], 
+      "StochOptForest\n(apx-soln)" =  colors[["StochOptForest\n(apx-soln)"]], 
+      "GenRandForest" = colors[["GenRandForest"]], 
+      "RandForest" = colors[["RandForest"]])) + ylab("Relative risk")  + xlab(TeX("Sample size $n$")) +  theme(legend.key.height = unit(0.8, "cm"))
+```
+
+```{r}
+plot_risk_n
+```
+```{r}
+ggsave("../../paper/fig/nv_risk_n.pdf", plot = plot_risk_n,width = 6.5, height = 4.5)
+```
+
+```{r}
+ggsave("nv_risk_n.pdf", plot = plot_risk_n,width = 10, height = 4.5)
+```
+
+# Fig 5(b)
+```{r}
+data = (read.csv("feature_split_nv_n.csv"))
+data = as_tibble(data)
+data$p = factor(data$p)
+data$Method = factor(data$Method, levels =c("StochOptForest\n(oracle)", "StochOptForest\n(apx-soln)", "StochOptForest\n(apx-risk)", "GenRandForest", "RandForest"))
+```
+
+```{r}
+plot_feature_freq = data %>%  ggplot(aes(x = p, y = freq, fill = Method)) + geom_col(position='dodge', color = "black") + xlab("Covariate index") + ylab("Splitting frequency") + coord_flip() + 
+  scale_fill_manual(values = 
+    c("StochOptForest\n(oracle)" = colors[["StochOptForest\n(oracle)"]],
+      "StochOptForest\n(apx-risk)" = colors[["StochOptForest\n(apx-risk)"]], 
+      "StochOptForest\n(apx-soln)" =  colors[["StochOptForest\n(apx-soln)"]], 
+      "GenRandForest" = colors[["GenRandForest"]], 
+      "RandForest" = colors[["RandForest"]])) + theme(legend.position = "none")
+```
+
+```{r}
+plot_feature_freq
+```
+```{r}
+ggsave("../../paper/fig/nv_split_freq.pdf", plot = plot_feature_freq, height = 5.5, width = 2)
+```
+
+# Fig 5(c)
+```{r}
+data <- read_csv("feature_importance_n.csv")[, -1]
+data$p = 1:10
+data$p = factor(data$p)
+colnames(data) = c("StochOptForest\n(apx-soln)", "StochOptForest\n(apx-risk)", "RandForest", "StochOptForest\n(oracle)", "p")
+data = data %>% pivot_longer(colnames(data)[1:4], names_to = "Method", values_to = "FI")
+data$Method = factor(data$Method, levels =c("StochOptForest\n(oracle)", "StochOptForest\n(apx-soln)", "StochOptForest\n(apx-risk)", "RandForest"))
+```
+
+```{r}
+plot_feature_imp = data %>%
+  ggplot(aes(x = p, y = FI, fill = Method)) +
+  geom_col(position='dodge', color = "black") +
+  xlab("Covariate index") + ylab("Normalized Importance") +
+  scale_fill_manual(values =
+                      c("StochOptForest\n(oracle)" = colors[["StochOptForest\n(oracle)"]],
+                        "StochOptForest\n(apx-risk)" = colors[["StochOptForest\n(apx-risk)"]],
+                        "StochOptForest\n(apx-soln)" =  colors[["StochOptForest\n(apx-soln)"]],
+                        "RandForest" = colors[["RandForest"]])) +
+  theme(legend.position = "none")
+```
+
+```{r}
+ggsave("../../paper/fig/nv_feature_importance.pdf", plot = plot_feature_imp, height = 2, width = 10)
+```
+
+# Fig 6(a) 
+```{r}
+data = (read.csv("risk_nv_p.csv"))
+data = as_tibble(data)
+data$p = factor(data$p)
+data$Method = factor(data$Method, levels =c("StochOptForest\n(apx-soln)", "StochOptForest\n(apx-risk)", "RandSplitForest", "5-NN", "10-NN","50-NN"))
+```
+
+```{r}
+plot_dimension = ggplot(data) + 
+  geom_boxplot(aes(x=Method, y=rel_risk, fill = p)) + 
+  ylab("Relative risk") + xlab("Method")
+```
+
+```{r}
+plot_dimension
+```
+
+```{r}
+ggsave("../../paper/fig/nv_risk_d.pdf", plot = plot_dimension, height = 2.5, width = 10)
+```
+
+# Fig 6(b)
+```{r}
+data = read.csv("risk_nv_highdim.csv")
+data = as_tibble(data)
+data$p = factor(data$p)
+data$Method = factor(data$Method,
+                     levels =c("StochOptForest\n(oracle)",
+                               "StochOptForest\n(apx-soln)",
+                               "StochOptForest\n(apx-risk)",
+                               "RandSplitForest", "5-NN", "10-NN",
+                               "50-NN"))
+```
+
+```{r}
+plot_highdimension = data %>% filter((Method != "StochOptForest\n(oracle)")) %>%
+  ggplot() +
+  geom_boxplot(aes(x=Method, y=rel_risk, fill = p)) +
+  ylab("Relative risk") + xlab("Method")
+```
+
+```{r}
+plot_highdimension
+```
+
+```{r}
+ggsave("../../paper/fig/nv_risk_high_dim.pdf",
+       plot = plot_highdimension, height = 2.5, width = 10)
+```
+
+# Fig 15(b)
+```{r}
+data = (read.csv("risk_nv_honesty.csv"))
+data = as_tibble(data)
+data$n = as.factor(data$n)
+data$Method = factor(data$Method, levels =c("StochOptForest\n(apx-soln)", "StochOptForest\n(apx-risk)"))
+data$Honesty = factor(data$Honesty, levels = c("yes", "no"))
+```
+
+```{r}
+plot_rel_risk_nv_honesty = data %>% 
+  ggplot(aes(x = n, y = rel_risk, fill = Method, linetype = Honesty)) +
+  geom_boxplot() +
+  scale_fill_manual(values = 
+    c("StochOptForest\n(apx-risk)" = colors[["StochOptForest\n(apx-risk)"]], 
+      "StochOptForest\n(apx-soln)" =  colors[["StochOptForest\n(apx-soln)"]])) + ylab("Relative risk")  + xlab(TeX("Sample size $n$")) + ylim(1, 3) + theme(legend.key.height = unit(0.8, "cm")) 
+```
+
+```{r}
+plot_rel_risk_nv_honesty
+```
+```{r}
+ggsave("../../paper/fig/nv_risk_honesty.pdf", plot = plot_rel_risk_nv_honesty, height = 4.5, width = 5.5)
+```
