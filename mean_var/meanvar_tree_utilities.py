@@ -7,7 +7,6 @@ from joblib import Parallel, delayed
 from functools import partial
 from functools import reduce
 from statsmodels.nonparametric.kernel_regression import KernelReg
-# from sklearn.neighbors import NearestNeighbors
 import pickle 
 import scipy.stats 
 from scipy.stats import truncnorm
@@ -265,14 +264,8 @@ def compute_update_step(node_Y, node_sol, nu0, lambda0,
         try:
             h = np.linalg.solve(lhs, rhs)[0:(len(node_sol)), :]
         except:
-            lhs = lhs + np.diag([0.05]*lhs.shape[1])
+            lhs = lhs + np.diag([1e-3]*lhs.shape[1])
             h = np.linalg.solve(lhs, rhs)[0:(len(node_sol)), :]
-        # except np.linalg.LinAlgError as exc:
-        #     if ('Singular matrix' in str(exc)) or ('singular matrix' in str(exc)):
-        #         lhs = lhs + np.diag([0.01]*lhs.shape[1])
-        #         h = np.linalg.solve(lhs, rhs)[0:(len(node_sol)), :]
-        #     else:
-        #         raise exc
 
         return h 
 

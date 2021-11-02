@@ -248,7 +248,7 @@ def compute_update_step(node_Y, node_sol, nu0, lambda0,
         try:
             h = np.linalg.solve(lhs, rhs)[0:(len(node_sol)), :]
         except:
-            lhs = lhs + np.diag([0.05]*lhs.shape[1])
+            lhs = lhs + np.diag([1e-3]*lhs.shape[1])
             h = np.linalg.solve(lhs, rhs)[0:(len(node_sol)), :]
 
         return h

@@ -25,7 +25,7 @@ names(colors) = c("StochOptForest\n(oracle)",
 data = (read.csv("risk_lognormal.csv"))
 data = as_tibble(data)
 data$n = as.factor(data$n)
-data$Method = factor(data$Method, levels =c("StochOptForest\n(apx-risk)", "StochOptForest\n(apx-soln)", "RandForest", "GenRandForest\n(modified)", "RandSplitForest"))
+data$Method = factor(data$Method, levels =c("StochOptForest\n(apx-risk)", "StochOptForest\n(apx-soln)", "GenRandForest\n(modified)", "RandForest",  "RandSplitForest"))
 data$Constraint = factor(data$Constraint, levels = c("yes", "no"))
 ```
 
@@ -36,9 +36,9 @@ plot_rel_risk_lognormal = data %>%
   scale_fill_manual(values = 
     c("StochOptForest\n(apx-risk)" = colors[["StochOptForest\n(apx-risk)"]], 
       "StochOptForest\n(apx-soln)" =  colors[["StochOptForest\n(apx-soln)"]], 
-      "RandForest" = colors[["RandForest"]], 
       "GenRandForest\n(modified)" = colors[["GenRandForest"]], 
-      "RandSplitForest" = colors[["RandSplitForest"]])) + ylab("Relative risk")  + xlab(TeX("Sample size $n$")) + ylim(1, 2) + theme(legend.key.height = unit(0.8, "cm")) 
+      "RandForest" = colors[["RandForest"]], 
+      "RandSplitForest" = colors[["RandSplitForest"]])) + ylab("Relative risk")  + xlab(TeX("Sample size $n$")) + ylim(1, 1.6) + theme(legend.key.height = unit(0.8, "cm")) 
 ```
 
 ```{r}

@@ -1,0 +1,81 @@
+---
+title: "Plotting_uber"
+output: html_document
+---
+
+# Figure 3
+```{r}
+colors = list("#D55E00", "#E69F00", "#56B4E9", "#009E73", "#CC79A7", "#0072B2")
+names(colors) = c("StochOptForest\n(oracle)",
+                  "StochOptForest\n(apx-risk)",
+                  "StochOptForest\n(apx-soln)", "RandForest",
+                  "RandSplitForest", "GenRandForest")
+compute_rel_riks = function(downtown_risks){
+  colnames(downtown_risks) = c("rf", "random", "grf",
+                               "apx-sol", "apx-risk",
+                               "apx-sol-uncstr", "apx-risk-uncstr",
+                               "vanilla", "oracle")
+  risks =vector("list", ncol(downtown_risks))
+  for (i in 1:ncol(downtown_risks)){
+    risks[[i]] = (downtown_risks[, "vanilla"] - downtown_risks[, i])/(downtown_risks[, "vanilla"] - downtown_risks[, "oracle"])
+    colnames(risks[[i]]) = NULL
+  }
+  names(risks) = colnames(downtown_risks)
+  risks = as_tibble(data.frame(risks))
+  colnames(risks) = colnames(downtown_risks)
+  risks = risks %>% select(-c(vanilla, oracle))
+  risks %>% pivot_longer(colnames(risks),
+                         names_to = "methods", values_to = "rel_risk") %>%
+    mutate(Constraint = case_when(methods == "apx-sol" ~ "yes",
+                                  methods == "apx-risk"~ "yes",
+                                  TRUE ~ "no")) %>%
+    mutate(Method = case_when(
+      methods == "rf" ~ "RandForest",
+      methods == "random" ~ "RandSplitForest",
+      methods == "apx-sol" ~ "StochOptForest\n(apx-soln)",
+      methods == "apx-sol-uncstr" ~ "StochOptForest\n(apx-soln)",
+      methods == "apx-risk" ~ "StochOptForest\n(apx-risk)",
+      methods == "apx-risk-uncstr" ~ "StochOptForest\n(apx-risk)",
+      methods == "grf" ~ "GenRandForest\n(modified)",
+    )) %>%
+    mutate(Constraint = factor(Constraint, levels = c("yes", "no"))) %>%
+    mutate(Method = factor(Method, levels = c("StochOptForest\n(apx-risk)","StochOptForest\n(apx-soln)","RandForest",
+                                              "GenRandForest\n(modified)","RandSplitForest")))
+}
+```
+
+```{r}
+downtown_risks =read_csv(paste0("downtown_risks", "_forest_years_twoyear.csv"))[, -1]
+risk2 = compute_rel_riks(downtown_risks) %>% mutate(Years = 2)
+downtown_risks =read_csv(paste0("downtown_risks", "_forest_years_onehalfyear.csv"))[, -1]
+risk1.5 = compute_rel_riks(downtown_risks) %>% mutate(Years = 1.5)
+downtown_risks =read_csv(paste0("downtown_risks", "_forest_years_oneyear.csv"))[, -1]
+risk1 = compute_rel_riks(downtown_risks) %>% mutate(Years = 1)
+downtown_risks =read_csv(paste0("downtown_risks", "_forest_years_halfyear.csv"))[, -1]
+risk0.5 = compute_rel_riks(downtown_risks) %>% mutate(Years = 0.5)
+pp = bind_rows(risk2, risk1,risk0.5, risk1.5) %>%
+  mutate(Method = factor(Method, levels = c("StochOptForest\n(apx-risk)","StochOptForest\n(apx-soln)",
+                                            "GenRandForest\n(modified)", "RandForest", "RandSplitForest"))) %>%
+  mutate(Years = factor(Years)) %>%
+  filter(!((Method == "GenRandForest") & (Constraint == "yes"))) %>%
+  ggplot(aes(x = Years, y = rel_risk,
+             fill = Method, linetype = Constraint)) +
+  scale_fill_manual(values =
+                      c("StochOptForest\n(apx-risk)" = colors[["StochOptForest\n(apx-risk)"]],
+                        "StochOptForest\n(apx-soln)" =  colors[["StochOptForest\n(apx-soln)"]],
+                        "GenRandForest\n(modified)" = colors[["GenRandForest"]],
+                        "RandForest" = colors[["RandForest"]],
+                        "RandSplitForest" = colors[["RandSplitForest"]])) +
+  geom_boxplot() +
+  ylab("% of Realized Improvement") +
+  xlab("Sample Size (Years)")
+```
+
+```{r}
+pp
+```
+
+```{r}
+ggsave("../../paper/fig/improvement.pdf",
+       plot = pp, height = 4.5, width = 10)
+```

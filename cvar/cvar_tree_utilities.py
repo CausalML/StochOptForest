@@ -122,8 +122,6 @@ def compute_crit_approx_sol(node_Y, node_sol, node_h_left, node_h_right, f_grad,
     
     return (crit, crit_left, crit_right)
 
-
-
 def compute_crit_grf(node_Y, node_sol, node_h_left, node_h_right, f_grad, g_grad, node_hessian, nu0, lambda0, valid_side):
     # note that node_h_left and node_h_right are already average within the child nodes,
     #     so we first multiply the sample sizes in the child nodes to recover the sum 

@@ -10,7 +10,7 @@ np.random.seed(seed)
 
 p_list = [10, 100, 200, 250]
 runs = 50
-n_jobs = 25
+n_jobs = 50
 n_trees = 500;
 N_list = [200]
 Nx_test = 200
