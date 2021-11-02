@@ -2,7 +2,7 @@ This repo contains code for the paper [Stochastic Optimization Forests](https://
 
 
 # Code structure 
-The tree and forest classes are in tree.py, and the splitting criterion implementations for newsvendor problem, CVaR optimization, mean variance optimization, shortest path optimization are in newsvendor/nv_tree_utilities.py, cvar/cvar_tree_utilities.py and mean_var/meanvar_tree_utilities.py, uber/cvar_tree_utilities.py respectively. All scripts for different experiments are experiment_*.py files in each directory. Use 'python experiment_name.py' will run these experiments in python. 
+The tree and forest classes are in tree.py, and the splitting criterion implementations for newsvendor problem, CVaR optimization, mean variance optimization, shortest path optimization are in newsvendor/nv_tree_utilities.py, cvar/cvar_tree_utilities.py, mean_var/meanvar_tree_utilities.py, and uber/cvar_tree_utilities.py, respectively. All scripts for different experiments are experiment_*.py files in each directory. Calling 'python experiment_name.py' will run these experiments in python. 
 
 Part of the code for tree and forest classes builds on the [EconML](https://github.com/microsoft/EconML) package: 
 - EconML: A Python Package for ML-Based Heterogeneous Treatment Effects Estimation. https://github.com/microsoft/EconML, 2019. Version 0.x.
@@ -27,8 +27,11 @@ cvar/feature_imp_cvar_lognormal.csv --> cvar/Plotting_cvar.Rmd
 - Figure 10(b): cvar/experiment_cvar_normal_oracle.py --> cvar/risk_cvar_normal_oracle.pkl --> cvar/risk_normal_oracle.csv--> cvar/Plotting_cvar.Rmd
 
 ## Uber experiment 
-- Figure 3: uber/experiment_downtown_years.py --> uber/downtown_risks_forest_years_halfyear.pkl,  uber/downtown_risks_forest_years_oneyear.pkl, uber/downtown_risks_forest_years_onehalfyear.pkl, uber/downtown_risks_forest_years_twoyear.pkl --> uber/downtown_risks_forest_years_halfyear.csv,  uber/downtown_risks_forest_years_oneyear.csv, uber/downtown_risks_forest_years_onehalfyear.csv, uber/downtown_risks_forest_years_twoyear.csv --> 
+### Figure 3
+- uber/experiment_downtown_years.py --> uber/downtown_risks_forest_years_halfyear.pkl,  uber/downtown_risks_forest_years_oneyear.pkl, uber/downtown_risks_forest_years_onehalfyear.pkl, uber/downtown_risks_forest_years_twoyear.pkl --> uber/downtown_risks_forest_years_halfyear.csv,  uber/downtown_risks_forest_years_oneyear.csv, uber/downtown_risks_forest_years_onehalfyear.csv, uber/downtown_risks_forest_years_twoyear.csv --> 
 Plotting_uber.Rmd
+- All raw data files are in uber/data. 
+- See uber/data_downloading.R and uber/preprocessing.R for data collection and preprocessing.  
 
 ## Newsvendor 
 ### Figure 5
