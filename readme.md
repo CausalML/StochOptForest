@@ -27,11 +27,13 @@ cvar/feature_imp_cvar_lognormal.csv --> cvar/Plotting_cvar.Rmd
 - Figure 10(b): cvar/experiment_cvar_normal_oracle.py --> cvar/risk_cvar_normal_oracle.pkl --> cvar/risk_normal_oracle.csv--> cvar/Plotting_cvar.Rmd
 
 ## Uber experiment 
-### Figure 3
-- uber/experiment_downtown_years.py --> uber/downtown_risks_forest_years_halfyear.pkl,  uber/downtown_risks_forest_years_oneyear.pkl, uber/downtown_risks_forest_years_onehalfyear.pkl, uber/downtown_risks_forest_years_twoyear.pkl --> uber/downtown_risks_forest_years_halfyear.csv,  uber/downtown_risks_forest_years_oneyear.csv, uber/downtown_risks_forest_years_onehalfyear.csv, uber/downtown_risks_forest_years_twoyear.csv --> 
-Plotting_uber.Rmd
 - All raw data files are in uber/data. 
-- See uber/data_downloading.R and uber/preprocessing.R for data collection and preprocessing.  
+- See uber/data_downloading.R and uber/preprocessing.R for data collection and preprocessing.
+
+### Figure 3
+uber/experiment_downtown_years.py --> uber/downtown_risks_forest_years_halfyear.pkl,  uber/downtown_risks_forest_years_oneyear.pkl, uber/downtown_risks_forest_years_onehalfyear.pkl, uber/downtown_risks_forest_years_twoyear.pkl --> uber/downtown_risks_forest_years_halfyear.csv,  uber/downtown_risks_forest_years_oneyear.csv, uber/downtown_risks_forest_years_onehalfyear.csv, uber/downtown_risks_forest_years_twoyear.csv --> 
+Plotting_uber.Rmd
+  
 
 ## Newsvendor 
 ### Figure 5
