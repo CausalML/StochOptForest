@@ -57,7 +57,8 @@ pp = bind_rows(risk2, risk1,risk0.5, risk1.5) %>%
   mutate(Method = factor(Method, levels = c("StochOptForest\n(apx-risk)","StochOptForest\n(apx-soln)",
                                             "GenRandForest\n(modified)", "RandForest", "RandSplitForest"))) %>%
   mutate(Years = factor(Years)) %>%
-  filter(!((Method == "GenRandForest") & (Constraint == "yes"))) %>%
+  filter(!((Method == "StochOptForest\n(apx-risk)") & (Constraint == "no"))) %>% 
+  filter(!((Method == "StochOptForest\n(apx-soln)") & (Constraint == "no"))) %>% 
   ggplot(aes(x = Years, y = rel_risk,
              fill = Method, linetype = Constraint)) +
   scale_fill_manual(values =
